@@ -19,14 +19,26 @@ const schema = buildSchema(`
 
   type Query {
     movie(id: String): Movie,
-    actor(id: String): Actor
+    movies: [Movie],
+    actor(id: String): Actor,
+    moviesStarring(names: [String!]): [Movie]
   }
 `);
  
 // The root provides a resolver function for each API endpoint
 const root = {
   actor: ({id}) => db.actors[id],
-  movie: ({id}) => db.movies[id]
+  movie: ({id}) => db.movies[id],
+  movies: () => Object.values(db.movies),
+  moviesStarring: ({names}) => Object.values(db.movies).filter((movie) => {
+    for (actorName of names) {
+      for (movieActor of movie.starring) {
+        if (movieActor.name === actorName) {
+          return true;
+        }
+      }
+    }
+  })
 };
  
 const app = express();
