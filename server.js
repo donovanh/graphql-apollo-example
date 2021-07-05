@@ -30,15 +30,12 @@ const schema = buildSchema(`
 const root = {
   actors: () => Object.values(db.actors),
   movies: () => Object.values(db.movies),
-  actor: ({id}) => db.actors[id],
-  movie: ({id}) => db.movies[id],
-  moviesStarring: ({name}) => Object.values(db.movies).filter((movie) => {
-    for (movieActor of movie.starring) {
-      if (movieActor.name === name) {
-        return true;
-      }
-    }
-  })
+  actor: ({ id }) => db.actors[id],
+  movie: ({ id }) => db.movies[id],
+  moviesStarring: ({ name }) => {
+    const actor = Object.values(db.actors).find((actor) => actor.name === name);
+    return actor.appearsIn;
+  }
 };
  
 const app = express();
