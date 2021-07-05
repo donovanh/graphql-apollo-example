@@ -18,24 +18,24 @@ const schema = buildSchema(`
   }
 
   type Query {
-    movie(id: String): Movie,
+    actors: [Actor],
     movies: [Movie],
     actor(id: String): Actor,
-    moviesStarring(names: [String!]): [Movie]
+    movie(id: String): Movie,
+    moviesStarring(name: String!): [Movie]
   }
 `);
  
 // The root provides a resolver function for each API endpoint
 const root = {
+  actors: () => Object.values(db.actors),
+  movies: () => Object.values(db.movies),
   actor: ({id}) => db.actors[id],
   movie: ({id}) => db.movies[id],
-  movies: () => Object.values(db.movies),
-  moviesStarring: ({names}) => Object.values(db.movies).filter((movie) => {
-    for (actorName of names) {
-      for (movieActor of movie.starring) {
-        if (movieActor.name === actorName) {
-          return true;
-        }
+  moviesStarring: ({name}) => Object.values(db.movies).filter((movie) => {
+    for (movieActor of movie.starring) {
+      if (movieActor.name === name) {
+        return true;
       }
     }
   })
