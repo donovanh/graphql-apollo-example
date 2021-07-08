@@ -18,6 +18,17 @@
     <h3><span id="name"></span> starred in...</h3>
     <ul id="movies"></ul>
   </section>
+  <section id="query">
+    <h3>Query</h3>
+    <pre>
+      <code id="query-code"></code>
+    </pre>
+    <h3>Variables</h3>
+    <pre>
+      <code id="variables-code"></code>
+    </pre>
+  </section>
+
   <script>
 
     // Set up functions
@@ -26,6 +37,11 @@
       const queryString = `?query=${encodeURIComponent(query)}&variables=${encodeURIComponent(variables)}`;
       const url = `https://graphql-apollo-example.vercel.app/${queryString}`;
       const response = await fetch(url);
+      // Populate the query in the HTML
+      const queryCode = document.querySelector('#query-code');
+      const variablesCode = document.querySelector('#variables-code');
+      queryCode.innerText = query;
+      variablesCode.innerText = variables;
       return await response.json();
     }
 
