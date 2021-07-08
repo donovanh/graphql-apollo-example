@@ -1,7 +1,7 @@
 const { ApolloServer, gql } = require('apollo-server');
 const db = require('./database.js');
  
-// Construct a schema, using GraphQL schema language
+// Construct our request types, using GraphQL schema language
 const typeDefs = gql(`
   type Actor {
     id: String!
@@ -26,26 +26,32 @@ const typeDefs = gql(`
     message: String!
   }
 
-  union NewMovieResponse = NewMovie | Error
+  union NewMovieOrError = NewMovie | Error
+
+  type MoviesStarring {
+    name: String!
+    movies: [Movie]! 
+  }
+
 
   type Query {
     actors: [Actor]
     movies: [Movie]
     actor(id: String!): Actor
     movie(id: String!): Movie
-    moviesStarring(name: String!): [Movie]!
+    moviesStarring(name: String!): MoviesStarring
   }
 
   type Mutation {
     createMovie(
       title: String!,
       starring: [String!]!
-    ): NewMovieResponse
+    ): NewMovieOrError
   }
 `);
  
 const resolvers = {
-  NewMovieResponse: {
+  NewMovieOrError: {
     __resolveType(obj, context, info){
       if(obj.message){
         return 'Error';
@@ -53,7 +59,6 @@ const resolvers = {
       if(obj.title){
         return 'NewMovie';
       }
-      return null; // GraphQLError is thrown
     },
   },
   Query: {
@@ -62,12 +67,15 @@ const resolvers = {
     actor: (parent, { id }) => db.actors[id],
     movie: (parent, { id }) => db.movies[id],
     moviesStarring: (parent, { name }) => {
-      const actor = Object.values(db.actors).find((actor) => actor.name === name);
-      return actor.appearsIn;
+      const actor = Object.values(db.actors).find((actor) => actor.name.toLowerCase() === name.toLowerCase());
+      return {
+        name,
+        movies: actor.appearsIn
+      };
     }
   },
   Mutation: {
-      createMovie: (parent, { title, starring }) => {
+    createMovie: (parent, { title, starring }) => {
       // We could validate and update a database here
       if (!title.length) {
         return {
