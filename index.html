@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Movies API Demo</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <h1>Stars in...</h1>
+  <section id="dropdown">
+    <select name="actor">
+      <option>Loading...</option>
+    </select>
+  </section>
+  <section id="movies">
+    <div id="loading">Loading...</div>
+    <div id="content"></div>
+  </section>
+  <script>
+
+    // Get the actors from the API
+    const query = `{
+      actors {
+        name
+      }
+    }`;
+    const variables = `{}`;
+
+    const queryString = `?query=${encodeURIComponent(query)}&variables=${encodeURIComponent(variables)}`;
+    const url = `https://graphql-apollo-example.vercel.app/${queryString}`;
+
+    const sendRequest = async () => {
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data)
+    };
+
+    sendRequest();
+  </script>
+</body>
+</html>
