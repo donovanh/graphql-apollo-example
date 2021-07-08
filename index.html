@@ -11,33 +11,99 @@
   <h1>Stars in...</h1>
   <section id="dropdown">
     <select name="actor">
-      <option>Loading...</option>
+      <option value="loading">Loading...</option>
     </select>
   </section>
-  <section id="movies">
-    <div id="loading">Loading...</div>
-    <div id="content"></div>
+  <section id="info" style="display: none;">
+    <h3><span id="name"></span> starred in...</h3>
+    <ul id="movies"></ul>
   </section>
   <script>
 
-    // Get the actors from the API
-    const query = `{
-      actors {
-        name
-      }
-    }`;
-    const variables = `{}`;
+    // Set up functions
 
-    const queryString = `?query=${encodeURIComponent(query)}&variables=${encodeURIComponent(variables)}`;
-    const url = `https://graphql-apollo-example.vercel.app/${queryString}`;
-
-    const sendRequest = async () => {
+    async function makeRequest(query, variables = '{}') {
+      const queryString = `?query=${encodeURIComponent(query)}&variables=${encodeURIComponent(variables)}`;
+      const url = `https://graphql-apollo-example.vercel.app/${queryString}`;
       const response = await fetch(url);
-      const data = await response.json();
-      console.log(data)
+      return await response.json();
+    }
+
+    function buildOptions(dropdown, actors) {
+      dropdown.remove(0); // Remove the loading option
+      const option = document.createElement("option");
+      option.value = '';
+      option.text = 'Select an actor';
+      dropdown.appendChild(option);
+
+      for (const actor of actors) {
+        const option = document.createElement("option");
+        option.value = actor.name;
+        option.text = actor.name;
+        dropdown.appendChild(option);
+      }
+    }
+
+    async function setupDropdown() {
+      const query = `{
+        actors {
+          name
+        }
+      }`;
+      const parsedResponse = await makeRequest(query);
+      const dropdown = document.querySelector('select[name=actor]');
+      buildOptions(dropdown, parsedResponse.data.actors);
+      dropdown.onchange = onDropdownChange;
     };
 
-    sendRequest();
+    async function onDropdownChange(e) {
+      const name = e.target.value;
+      if (name === '') {
+        showMovieInfo();
+        return;
+      }
+
+      // Send it to the server
+      const query = `query MoviesStarring($name: String!) {
+        moviesStarring(name: $name) {
+          name
+          movies {
+            title
+          }
+        }
+      }`;
+      const variables = `{
+        "name": "${name}"
+      }`;
+      const parsedResponse = await makeRequest(query, variables);
+      const queryResult = parsedResponse.data.moviesStarring;
+      showMovieInfo(queryResult.name, queryResult.movies);
+    }
+
+    function showMovieInfo(name, movies) {
+      const info = document.querySelector('#info');
+      const nameSpan = document.querySelector('#name');
+      const moviesUL = document.querySelector('#movies');
+      
+      // Empty the movies list
+      moviesUL.innerHTML = '';
+
+      if (!name) {
+        info.style.display = 'none';
+        return;
+      }
+
+      nameSpan.innerText = name
+      for (const movie of movies) {
+        const movieLI = document.createElement('li');
+        movieLI.appendChild(document.createTextNode(movie.title));
+        moviesUL.appendChild(movieLI);
+      }
+      info.style.display = 'block';
+    }
+
+    // Call the setup function
+    setupDropdown();
   </script>
 </body>
 </html>
