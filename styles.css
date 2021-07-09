@@ -74,8 +74,9 @@ li::before {
 }
 
 .query-section {
-  color: #aaa;
+  color: #eee;
   position: fixed;
+  font-family: monospace;
   bottom: 0;
   left: 0;
   right: 0;
