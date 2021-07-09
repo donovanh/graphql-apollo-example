@@ -5,10 +5,13 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Movies API Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&family=Montserrat:wght@800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <h1>Stars in...</h1>
+  <h1>Starring in...</h1>
   <section id="dropdown">
     <select name="actor">
       <option value="loading">Loading...</option>
@@ -18,15 +21,19 @@
     <h3><span id="name"></span> starred in...</h3>
     <ul id="movies"></ul>
   </section>
-  <section id="query">
-    <h3>Query</h3>
-    <pre>
-      <code id="query-code"></code>
-    </pre>
-    <h3>Variables</h3>
-    <pre>
-      <code id="variables-code"></code>
-    </pre>
+  <section id="query" class="query-section">
+    <div>
+      <h3>Query</h3>
+      <pre>
+        <code id="query-code"></code>
+      </pre>
+    </div>
+    <div>
+      <h3>Variables</h3>
+      <pre>
+        <code id="variables-code"></code>
+      </pre>
+    </
   </section>
 
   <script>

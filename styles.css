@@ -1,0 +1,76 @@
+html {
+  font-family: 'Libre Franklin', sans-serif;
+  margin: 0;
+}
+
+body {
+  background: #000;
+  color:#eee;
+  font-size: 117%;
+  margin: 0 auto;
+  padding: 3rem 2rem 20rem;
+  max-width: 800px;
+}
+
+h1 {
+  color: gold;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 3rem;
+  position: relative;
+}
+
+h1:before {
+  content: "🤩";
+  position: absolute;
+  font-size: 2rem;
+  left: -1.5rem;
+  top: -1.5rem;
+  transform: rotateZ(-20deg);
+}
+
+h1:after {
+  content: "🍿";
+  position: absolute;
+  font-size: 2rem;
+  left: 0;
+  top: -1.5rem;
+  transform: rotateZ(20deg);
+}
+
+select {
+  font-size: 117%;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  font-size: 2rem;
+  padding:  0.5rem 2rem;
+  text-indent: -2rem;
+}
+
+li::before {
+  content: "🎬 ";
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+
+.query-section {
+  color: #aaa;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #333;
+  border-top: 2px solid #222;
+  display: flex;
+}
+
+.query-section div {
+  padding: 0 1rem;
+  width: 50%;
+}
