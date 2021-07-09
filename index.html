@@ -78,8 +78,12 @@
     async function onActorChange(e) {
       const name = e.target.value;
       const moviesUL = document.querySelector('#movies');
+      const nameSpan = document.querySelector('#name');
+
       // Empty the movies list first
       moviesUL.innerHTML = '';
+      // Set the searching-for name
+      nameSpan.innerText = name
 
       if (name === '') {
         showMovieInfo();
@@ -105,7 +109,6 @@
 
     function showMovieInfo(name, movies) {
       const info = document.querySelector('#info');
-      const nameSpan = document.querySelector('#name');
       const moviesUL = document.querySelector('#movies');
 
       if (!name) {
@@ -113,7 +116,6 @@
         return;
       }
 
-      nameSpan.innerText = name
       for (const movie of movies) {
         const movieLI = document.createElement('li');
         movieLI.appendChild(document.createTextNode(movie.title));
