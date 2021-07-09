@@ -33,13 +33,10 @@
       <pre>
         <code id="variables-code"></code>
       </pre>
-    </
+    </div>
   </section>
 
   <script>
-
-    // Set up functions
-
     async function makeRequest(query, variables = '{}') {
       const queryString = `?query=${encodeURIComponent(query)}&variables=${encodeURIComponent(variables)}`;
       const url = `https://graphql-apollo-example.vercel.app/${queryString}`;
@@ -52,7 +49,7 @@
       return await response.json();
     }
 
-    function buildOptions(dropdown, actors) {
+    function addActorsToDropdown(dropdown, actors) {
       dropdown.remove(0); // Remove the loading option
       const option = document.createElement("option");
       option.value = '';
@@ -67,7 +64,7 @@
       }
     }
 
-    async function setupDropdown() {
+    async function setupActors() {
       const query = `{
         actors {
           name
@@ -75,11 +72,11 @@
       }`;
       const parsedResponse = await makeRequest(query);
       const dropdown = document.querySelector('select[name=actor]');
-      buildOptions(dropdown, parsedResponse.data.actors);
-      dropdown.onchange = onDropdownChange;
+      addActorsToDropdown(dropdown, parsedResponse.data.actors);
+      dropdown.onchange = onActorChange;
     };
 
-    async function onDropdownChange(e) {
+    async function onActorChange(e) {
       const name = e.target.value;
       if (name === '') {
         showMovieInfo();
@@ -126,7 +123,7 @@
     }
 
     // Call the setup function
-    setupDropdown();
+    setupActors();
   </script>
 </body>
 </html>
