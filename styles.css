@@ -1,5 +1,5 @@
 html {
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Open Sans', sans-serif;
   margin: 0;
 }
 
@@ -14,7 +14,7 @@ body {
 
 h1 {
   color: gold;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Limelight', sans-serif;
   font-size: 3rem;
   position: relative;
 }
@@ -23,9 +23,9 @@ h1:before {
   content: "🤩";
   position: absolute;
   font-size: 2rem;
-  left: -1.5rem;
-  top: -1.5rem;
-  transform: rotateZ(-20deg);
+  left: -1.75rem;
+  top: -1.25rem;
+  transform: rotateZ(-30deg);
 }
 
 h1:after {
@@ -33,7 +33,7 @@ h1:after {
   position: absolute;
   font-size: 2rem;
   left: 0;
-  top: -1.5rem;
+  top: -1.75rem;
   transform: rotateZ(20deg);
 }
 
@@ -48,9 +48,23 @@ ul {
 }
 
 li {
-  font-size: 2rem;
+  animation: showMovie cubic-bezier(.5,-0.63,.39,1.37) 0.5s forwards;
+  transform-origin: 0 0;
+  font-family: 'Limelight', sans-serif;
+  font-size: 3rem;
   padding:  0.5rem 2rem;
   text-indent: -2rem;
+}
+
+@keyframes showMovie {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 li::before {

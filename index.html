@@ -7,8 +7,7 @@
   <title>Starring in... Movies API Demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500&family=Montserrat:wght@800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Open+Sans&display=swap" rel="stylesheet">  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
   <h1>Starring in...</h1>
@@ -18,7 +17,7 @@
     </select>
   </section>
   <section id="info" style="display: none;">
-    <h3><span id="name"></span> starred in...</h3>
+    <p><span id="name"></span> starred in...</p>
     <ul id="movies"></ul>
   </section>
   <section id="query" class="query-section">
@@ -78,6 +77,10 @@
 
     async function onActorChange(e) {
       const name = e.target.value;
+      const moviesUL = document.querySelector('#movies');
+      // Empty the movies list first
+      moviesUL.innerHTML = '';
+
       if (name === '') {
         showMovieInfo();
         return;
@@ -104,9 +107,6 @@
       const info = document.querySelector('#info');
       const nameSpan = document.querySelector('#name');
       const moviesUL = document.querySelector('#movies');
-      
-      // Empty the movies list
-      moviesUL.innerHTML = '';
 
       if (!name) {
         info.style.display = 'none';
