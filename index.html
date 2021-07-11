@@ -49,6 +49,18 @@
       return await response.json();
     }
 
+    async function setupActors() {
+      const query = `{
+        actors {
+          name
+        }
+      }`;
+      const parsedResponse = await makeRequest(query);
+      const dropdown = document.querySelector('select[name=actor]');
+      addActorsToDropdown(dropdown, parsedResponse.data.actors);
+      dropdown.onchange = onActorChange;
+    };
+
     function addActorsToDropdown(dropdown, actors) {
       dropdown.remove(0); // Remove the loading option
       const option = document.createElement("option");
@@ -63,18 +75,6 @@
         dropdown.appendChild(option);
       }
     }
-
-    async function setupActors() {
-      const query = `{
-        actors {
-          name
-        }
-      }`;
-      const parsedResponse = await makeRequest(query);
-      const dropdown = document.querySelector('select[name=actor]');
-      addActorsToDropdown(dropdown, parsedResponse.data.actors);
-      dropdown.onchange = onActorChange;
-    };
 
     async function onActorChange(e) {
       const name = e.target.value;
@@ -127,6 +127,49 @@
 
     // Call the setup function
     setupActors();
+
+    // An example of how we might apply a "mutation"
+    //
+    // const query = `mutation NewMovie(
+    //   $title: String!,
+    //   $starring:[String!]!
+    // ) {
+    //   createMovie(
+    //     title: $title,
+    //     starring: $starring
+    //   ) {
+    //     ... on Error {
+    //       id,
+    //       message
+    //     }
+    //     ... on NewMovie {
+    //       id,
+    //       title,
+    //       starring
+    //     }
+    //   }
+    // }`;
+    
+    // const variables = {
+    //   title: "Test movie",
+    //   starring: ["Actor One", "Actor Two"]
+    // };
+
+    // async function mutationRequest(query, variables) {
+    //   const url = 'https://graphql-apollo-example.vercel.app';
+    //   const response = await fetch(url, {
+    //     method: 'post',
+    //     headers: {
+    //       'Accept': 'application/json, text/plain, */*',
+    //       'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify({query, variables: JSON.stringify(variables)})
+    //   });
+    //   const responseJSON = await response.json();
+    //   console.log(responseJSON);
+    // }
+
+    // mutationRequest(query, variables);
   </script>
 </body>
 </html>
