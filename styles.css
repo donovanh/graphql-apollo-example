@@ -51,9 +51,15 @@ li {
   animation: showMovie cubic-bezier(.5,-0.63,.39,1.37) 0.5s forwards;
   transform-origin: 0 0;
   font-family: 'Limelight', sans-serif;
-  font-size: 3rem;
+  font-size: 1.5rem;
   padding:  0.5rem 2rem;
   text-indent: -2rem;
+}
+
+@media screen and (min-width: 800px) {
+  li {
+    font-size: 3rem;
+  }
 }
 
 @keyframes showMovie {
@@ -77,6 +83,7 @@ li::before {
   color: #eee;
   position: fixed;
   font-family: monospace;
+  font-size: 0.66rem;
   bottom: 0;
   left: 0;
   right: 0;
@@ -88,4 +95,10 @@ li::before {
 .query-section div {
   padding: 0 1rem;
   width: 50%;
+}
+
+@media screen and (min-width: 800px) {
+  .query-section {
+    font-size: 1rem;
+  }
 }
